@@ -23,7 +23,7 @@
     "amqplib": "^0.8.0",
     "helmet": "^5.0.2",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
+    "rimraf": "^5.0.5",
     "rxjs": "^7.5.2",
     "shared-types": "file:../types",
     "swagger-ui-express": "^4.3.0",
