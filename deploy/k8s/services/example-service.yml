@@ -17,13 +17,13 @@ spec:
         - name: example-service
           image: "registry.io/web/example-service:latest"
           imagePullPolicy: IfNotPresent
-          # resources:
-          #   requests:
-          #     memory: "128Mi"
-          #     cpu: "500m"
-          #   limits:
-          #     memory: "128Mi"
-          #     cpu: "500m"
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           ports:
             - containerPort: 8080
           env:
