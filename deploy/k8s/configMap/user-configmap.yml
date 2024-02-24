@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-configmap
+  namespace: web-service
+data:
+  APP_MODE: development
+  APP_PORT: "9000"
+
+  #Mysql config
+  # MYSQL_HOST:
+  # MYSQL_USER:
+  # MYSQL_PORT:
+  # MYSQL_PASSWORD:
+  # MYSQL_DATABASE:
+
+  # #Elasticsearch
+  # ELASTICSEARCH_NODE: http://10.0.0.1:9200
+  # ELASTICSEARCH_USERNAME: elastic
+  # ELASTICSEARCH_PASSWORD:
+
+  # #Redis
+  # REDIS_HOST:
+  # REDIS_PORT: "6379"

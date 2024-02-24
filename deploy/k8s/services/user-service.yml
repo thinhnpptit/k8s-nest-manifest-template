@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  namespace: web-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: "registry.io/web/user-service:latest"
+          imagePullPolicy: IfNotPresent
+          # resources:
+          #   requests:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          ports:
+            - containerPort: 9000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: API_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configmap
+                  key: API_PORT
+            - name: USER_SERVICE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: global-configmap
+                  key: USER_SERVICE_HOST
+          envFrom:
+            - configMapRef:
+                name: user-configmap
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          # livenessProbe:
+          #   initialDelaySeconds: 20
+          #   httpGet:
+          #     path: /status
+          #     port: 9000
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  namespace: web-service
+spec:
+  selector:
+    app: user-service
+  ports:
+    - port: 8080
+      targetPort: 9000

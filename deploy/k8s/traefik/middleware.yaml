@@ -1,0 +1,29 @@
+# apiVersion: apiextensions.k8s.io/v1beta1
+# kind: CustomResourceDefinition
+# metadata:
+#   name: middlewares.traefik.io
+# spec:
+#   group: traefik.io
+#   version: v1alpha1
+#   names:
+#     kind: Middleware
+#     plural: middlewares
+#     singular: middleware
+#   scope: Namespaced
+
+# ---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: auth-middleware
+  # namespace: web-service
+spec:
+  forwardAuth:
+    address: https:/dapiv4.web.vn/auth
+    authResponseHeaders:
+      - X-Auth-User
+      - X-Secret
+  # plugin:
+  #   traefik-plugin:
+  #     moduleName: "gitlab.web.vn/web/be-web/auth-service.git"
+  #     version: "v1"

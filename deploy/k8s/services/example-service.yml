@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-service
+  namespace: web-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example-service
+  template:
+    metadata:
+      labels:
+        app: example-service
+    spec:
+      containers:
+        - name: example-service
+          image: "registry.io/web/example-service:latest"
+          imagePullPolicy: IfNotPresent
+          # resources:
+          #   requests:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          #   limits:
+          #     memory: "128Mi"
+          #     cpu: "500m"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: API_PORT
+              value: "8080"
+            - name: EXAMPLE_SERVICE_HOST
+              value: "example-service"
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          # livenessProbe:
+          #   initialDelaySeconds: 20
+          #   httpGet:
+          #     path: /status
+          #     port: 9000
+      imagePullSecrets:
+        - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-service
+  namespace: web-service
+spec:
+  selector:
+    app: example-service
+  ports:
+    - port: 8080
+      targetPort: 8080

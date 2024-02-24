@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: global-configmap
+  namespace: web-service
+data:
+  API_PORT: "9000"
+  USER_SERVICE_HOST: user-service
+  MONGO_HOST: mongodb
